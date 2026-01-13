@@ -39,4 +39,5 @@ chrome.action.onClicked.addListener(async (tab) => {
       });
     }
   }
+  else chrome.tabs.create({ url: extensions });
 });
