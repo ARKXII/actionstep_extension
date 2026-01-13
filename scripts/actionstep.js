@@ -1,7 +1,9 @@
-javascript: (function () {
+function actionStepQOL() {
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
-  if (actionType) actionType.style.height = "900px";
+  const error = "";
+  if (actionType) actionType.style.height = "700px";
+  else error = "Action Type element not found.";
   if (stepSelect) {
     stepSelect.style.height = "900px";
     const texts = Array.from(stepSelect.selectedOptions).map((o) => o.text);
@@ -21,8 +23,10 @@ javascript: (function () {
         : document.body.appendChild(newDiv);
     }
     console.log("Selected:", texts);
-    alert(
-      "Select boxes height set to 900px. Selected Current Step options collected into textbox. Refresh to reset."
-    );
-  }
-})();
+  } else error = "Current Step element not found.";
+}
+try {
+  actionStepQOL();
+} catch {
+  console.log(error);
+}

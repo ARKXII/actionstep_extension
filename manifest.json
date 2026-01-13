@@ -12,9 +12,17 @@
       "128": "images/icon-128.png"
     }
   },
-  "background": {
-    "service_worker": "scripts/background.js"
-  },
+  "content_scripts": [
+    {
+      "matches": ["https://ap-southeast-2.actionstepstaging.com/mym/asfw/settings/actions-list/edit/user_list_id/*"],
+      "js": ["scripts/buttonClick.js","scripts/actionstep.js"]
+    }
+  ],
   "permissions": ["activeTab", "scripting"],
-  "host_permissions": []
+  "web_accessible_resources": [
+    {
+      "resources": ["toast.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
