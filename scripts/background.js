@@ -27,6 +27,10 @@ chrome.action.onClicked.addListener(async (tab) => {
         target: { tabId: tab.id },
         files: ["scripts/buttonClick.js"],
       });
+      await chrome.scripting.insertCSS({
+        target: { tabId: tab.id },
+        files: ["toast.css"],
+      });
       // Then call the specific function exposed by that file
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -39,5 +43,6 @@ chrome.action.onClicked.addListener(async (tab) => {
       });
     }
   }
+  // open a new tab if not on extensions or webstore pages
   else chrome.tabs.create({ url: extensions });
 });
