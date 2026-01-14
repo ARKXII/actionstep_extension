@@ -1,4 +1,8 @@
 function actionStepQOL() {
+  if (window.location.href == startsWith("/action_types/")) {
+    console.debug("Not on an Action Type page.");
+    return false;
+  };
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
 
@@ -53,5 +57,5 @@ const result = actionStepQOL();
 if (result) {
   console.log("actionStepQOL completed successfully");
 } else {
-  console.log("actionStepQOL did not complete");
+  console.log(result);
 }
