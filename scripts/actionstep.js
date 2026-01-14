@@ -1,24 +1,22 @@
 function actionStepQOL() {
-  if (window.location.href == startsWith("/action_types/")) {
-    console.debug("Not on an Action Type page.");
-    return false;
-  };
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
+  const customSelect = document.getElementById(
+    "DataCollectionSingleRowPluginData_MultiSelectContainer"
+  );
+  const inputCustom = document.getElementById(
+    "DataCollectionSingleRowPluginData_Input"
+  );
 
   //search for select elements
-  if (!actionType) {
-    console.debug("Action Type element (#action_type_id) not found.");
-    return false;
-  }
-
-  if (!stepSelect) {
-    console.debug("Current Step element (#action_type_step_number) not found.");
-    return false;
-  }
   //set select box height
-  actionType.style.height = "700px";
-  stepSelect.style.height = "900px";
+  if (actionType) actionType.style.height = "700px";
+  if (stepSelect) stepSelect.style.height = "900px";
+  if (customSelect) customSelect.style.height = "500px";
+  if (inputCustom) {
+    inputCustom.focus()
+  };
+
   const texts = Array.from(stepSelect.selectedOptions).map((o) => o.text);
   const content = texts.join("\n") || "No selections";
 
