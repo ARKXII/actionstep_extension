@@ -26,7 +26,7 @@ chrome.action.onClicked.addListener(async (tab) => {
       // Inject the file first
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        files: ["scripts/buttonClick.js"],
+        files: ["scripts/buttonClicked.js"],
       });
       await chrome.scripting.insertCSS({
         target: { tabId: tab.id },

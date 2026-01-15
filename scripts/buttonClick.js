@@ -1,8 +1,8 @@
 // document.addEventListener("DOMContentLoaded", function () {
 //   console.log("DOM fully loaded and parsed");
-//   buttonClicked();
+//   buttonClickeded();
 // });
-function buttonClicked() {
+function buttonClicked(string) {
   //get toast css
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -12,7 +12,7 @@ function buttonClicked() {
   //inject toast div
   const toast = document.createElement("div");
   toast.id = "snackbar";
-  toast.innerHTML = `Actionstep QoL scripts loaded!`;
+  toast.innerHTML = `${string || "ActionStep QoL scripts loaded!"}`;
   document.body.appendChild(toast);
 
   // Get the toast DIV
@@ -26,5 +26,3 @@ function buttonClicked() {
     x.className = x.className.replace("show", "");
   }, 3000);
 };
-
-buttonClicked();
