@@ -1,5 +1,5 @@
 //toast function
-function buttonClicked(string) {
+/* function buttonClicked(string) {
   // Get toast css
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -41,7 +41,7 @@ function buttonClicked(string) {
     }, 3000);
   }
 }
-
+ */
 function actionStepQOL() {
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
@@ -51,6 +51,10 @@ function actionStepQOL() {
   const inputCustom = document.getElementById(
     "DataCollectionSingleRowPluginData_Input"
   );
+  if (!actionType && !stepSelect && !customSelect && !inputCustom) {
+    console.log("No relevant elements found, exiting script.");
+    return false;
+  }
 
   //search for select elements
   //set select box height
@@ -99,7 +103,7 @@ function actionStepQOL() {
 const result = actionStepQOL();
 if (result) {
   console.log("actionStepQOL completed successfully");
-  buttonClicked("ActionStep QoL scripts loaded!");
+  ExtensionUtils.buttonClicked("ActionStep QoL scripts loaded!");
 } else {
   console.log(result);
 }
@@ -114,7 +118,7 @@ const observer = new MutationObserver((mutations) => {
         node.id === "DrilldownDialog"
       ) {
         console.log("DrilldownDialog detected!");
-        buttonClicked("Open column in new tab to apply fixes.");
+        ExtensionUtils.buttonClicked("Open column in new tab to apply fixes.");
         return; // Found it, no need to check further
       }
 
@@ -123,7 +127,9 @@ const observer = new MutationObserver((mutations) => {
         const drilldownDialog = node.querySelector("#DrilldownDialog");
         if (drilldownDialog) {
           console.log("DrilldownDialog found inside added node!");
-          buttonClicked("Open column in new tab to apply fixes.");
+          ExtensionUtils.buttonClicked(
+            "Open column in new tab to apply fixes."
+          );
           return;
         }
       }
@@ -134,7 +140,9 @@ const observer = new MutationObserver((mutations) => {
 // Also check if DrilldownDialog already exists when script loads
 if (document.getElementById("DrilldownDialog")) {
   console.log("DrilldownDialog already exists on page load");
-  buttonClicked("Open column in new tab to apply fixes. Thanks!");
+  ExtensionUtils.buttonClicked(
+    "Open column in new tab to apply fixes. Thanks!"
+  );
 }
 
 // Start observing

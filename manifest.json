@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["https://ap-southeast-2.actionstepstaging.com/mym/asfw/settings/actions-list/edit/user_list_id/*","https://ap-southeast-2.actionstepstaging.com/mym/*"],
-      "js": ["scripts/buttonClick.js","scripts/actionstep.js","scripts/headerColor.js"]
+      "js": ["scripts/buttonClick.js","scripts/actionstep.js","scripts/ratesheetoverride.js"]
     }
   ],
   "permissions": ["activeTab", "scripting"],

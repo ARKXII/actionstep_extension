@@ -2,27 +2,49 @@
 //   console.log("DOM fully loaded and parsed");
 //   buttonClickeded();
 // });
-function buttonClicked(string) {
-  //get toast css
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = chrome.runtime.getURL("toast.css");
-  document.head.appendChild(link);
+const ExtensionUtils = {
+  buttonClicked: function buttonClicked(string) {
+    // Get toast css
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = chrome.runtime.getURL("toast.css");
+    document.head.appendChild(link);
 
-  //inject toast div
-  const toast = document.createElement("div");
-  toast.id = "snackbar";
-  toast.innerHTML = `${string || "ActionStep QoL scripts loaded!"}`;
-  document.body.appendChild(toast);
+    // Check if snackbar already exists
+    let toast = document.getElementById("snackbar");
 
-  // Get the toast DIV
-  var x = document.getElementById("snackbar");
+    if (toast) {
+      // Update existing snackbar content
+      toast.innerHTML = `${string}`;
 
-  // Add the "show" class to DIV
-  x.className = "show";
+      // Make sure it's visible (re-add show class if needed)
+      toast.className = "show";
 
-  // After 3 seconds, remove the show class from DIV
-  setTimeout(function () {
-    x.className = x.className.replace("show", "");
-  }, 3000);
+      // Clear any existing timeout to reset the hide timer
+      if (toast._hideTimeout) {
+        clearTimeout(toast._hideTimeout);
+      }
+
+      // Set new timeout to hide after 3 seconds
+      toast._hideTimeout = setTimeout(function () {
+        toast.className = toast.className.replace("show", "");
+      }, 5000);
+    } else {
+      // Create new snackbar
+      toast = document.createElement("div");
+      toast.id = "snackbar";
+      toast.innerHTML = `${string}`;
+      document.body.appendChild(toast);
+
+      // Add the "show" class
+      toast.className = "show";
+
+      // After 3 seconds, remove the show class
+      toast._hideTimeout = setTimeout(function () {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
+    }
+  },
 };
+
+window.ExtensionUtils = ExtensionUtils;
