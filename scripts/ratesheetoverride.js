@@ -1,16 +1,19 @@
 function rateSheetOverride() {
+  // find table and extract data
   const table = document.querySelector("table.as-subform");
   const data = [];
   const rows = table.querySelectorAll("tbody tr.js-subform-row");
+
   rows.forEach((row) => {
     const rowData = {};
     const rateNameInput = row.querySelector('input[name*="rate_name"]');
     const defaultRateInput = row.querySelector('input[name*="default_rate"]');
     const overrideRateInput = row.querySelector('input[name*="override_rate"]');
     const participantIdInput = row.querySelector(
-      'input[name*="participant_id"]'
+      'input[name*="participant_id"]',
     );
     const rateIdInput = row.querySelector('input[name*="rate_id"]');
+
     if (rateNameInput) {
       rowData["Rate Name"] = rateNameInput.value;
       rowData["Default Rate"] = defaultRateInput ? defaultRateInput.value : "";
@@ -24,8 +27,11 @@ function rateSheetOverride() {
       data.push(rowData);
     }
   });
+
   console.log("Ratesheet Data:", data);
   console.table(data);
+
+  // construct CSV Content
   const csvFields = [
     "Rate Name",
     "Default Rate",
@@ -33,6 +39,7 @@ function rateSheetOverride() {
     "Participant ID",
     "Client Name",
   ];
+
   const csvContent = [
     csvFields.join("|"),
     ...data.map((row) => {
@@ -62,10 +69,14 @@ function rateSheetOverride() {
       return chunks.join("\n");
     }),
   ].join("\n");
+
+  //create textbox and insert into DOM
   const textbox = document.createElement("DIV");
   textbox.id = "ratesheet-data";
   textbox.innerHTML = `<div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">    <textarea id="ratesheet-textarea" style="width:100%;height:200px;font-family:monospace;">${csvContent}</textarea>  </div>`;
+
   const targetDiv = document.querySelector(".js-rate-sheet-override-elements");
+
   if (targetDiv) {
     targetDiv.appendChild(textbox);
   } else {
@@ -84,6 +95,7 @@ function rateSheetOverride() {
     appendCopyTarget.appendChild(copyDiv);
   }
 
+  // call toast
   ExtensionUtils.buttonClicked("Rate Sheet Override fixes applied!");
 }
 

@@ -1,7 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   console.log("DOM fully loaded and parsed");
-//   buttonClickeded();
-// });
 const ExtensionUtils = {
   buttonClicked: function buttonClicked(string) {
     // Get toast css

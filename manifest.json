@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ActionStep Extension",
+  "name": "ActionStep QoL",
   "author": "Joshua Villalobos",
   "version": "1.0.0",
   "description": "Various Quality of Life upgrades for ActionStep",
@@ -14,8 +14,18 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://ap-southeast-2.actionstepstaging.com/mym/asfw/settings/actions-list/edit/user_list_id/*","https://ap-southeast-2.actionstepstaging.com/mym/*"],
-      "js": ["scripts/buttonClick.js","scripts/actionstep.js","scripts/ratesheetoverride.js"]
+      "matches": [
+        "https://ap-southeast-2.actionstepstaging.com/mym/asfw/settings/actions-list/edit/user_list_id/*",
+        "https://ap-southeast-2.actionstepstaging.com/mym/*",
+        "https://ap-southeast-2.actionstep.com/mym/asfw/settings/actions-list/edit/user_list_id/*",
+        "https://ap-southeast-2.actionstep.com/mym/*"
+      ],
+      "js": [
+        "scripts/buttonClick.js",
+        "scripts/actionstep.js",
+        "scripts/ratesheetoverride.js",
+        "scripts/observer.js"
+      ]
     }
   ],
   "permissions": ["activeTab", "scripting"],
