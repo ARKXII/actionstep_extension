@@ -2,7 +2,7 @@
 function changeHeaderColor() {
   const header = document.getElementById("global-navigation");
   if (header) {
-  header.style.cssText += "background-color: #b99a0e !important;";
+    header.style.cssText += "background-color: #b99a0e !important;";
   } else return false;
 }
 

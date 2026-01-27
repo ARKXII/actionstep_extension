@@ -1,6 +1,9 @@
 function rateSheetOverride() {
   // find table and extract data
   const table = document.querySelector("table.as-subform");
+  if (!table) {
+    return "No ratesheet table found. Exiting script.";
+  }
   const data = [];
   const rows = table.querySelectorAll("tbody tr.js-subform-row");
 
