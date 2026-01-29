@@ -24,7 +24,8 @@
         "scripts/buttonClick.js",
         "scripts/actionstep.js",
         "scripts/ratesheetoverride.js",
-        "scripts/observer.js"
+        "scripts/observer.js",
+        "scripts/headerColor.js"
       ]
     }
   ],
