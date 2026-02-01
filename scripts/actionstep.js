@@ -7,10 +7,12 @@ function actionStepQOL() {
   const inputCustom = document.getElementById(
     "DataCollectionSingleRowPluginData_Input"
   );
-  if (!actionType && !stepSelect && !customSelect && !inputCustom) {
+
+if (!actionType && !stepSelect && !customSelect && !inputCustom) {
     console.log("No relevant elements found, exiting script.");
     return false;
   }
+
 
   //search for select elements
   //set select box height
@@ -59,7 +61,7 @@ function actionStepQOL() {
 const result = actionStepQOL();
 if (result) {
   console.log("actionStepQOL completed successfully");
-  ExtensionUtils.buttonClicked("ActionStep QoL scripts loaded!");
+  ExtensionUtils.showToast("ActionStep QoL scripts loaded!");
 } else {
   console.log(result);
 }

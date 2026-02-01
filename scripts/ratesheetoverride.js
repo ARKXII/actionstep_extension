@@ -99,7 +99,7 @@ function rateSheetOverride() {
   }
 
   // call toast
-  ExtensionUtils.buttonClicked("Rate Sheet Override fixes applied!");
+  ExtensionUtils.showToast("Rate Sheet Override fixes applied!");
 }
 
 rateSheetOverride();

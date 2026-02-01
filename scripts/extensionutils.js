@@ -1,5 +1,5 @@
 const ExtensionUtils = {
-  buttonClicked: function buttonClicked(string) {
+  showToast: function showToast(string) {
     // Get toast css
     const link = document.createElement("link");
     link.rel = "stylesheet";

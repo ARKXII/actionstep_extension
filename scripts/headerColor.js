@@ -10,13 +10,9 @@ function changeHeaderColor(string) {
   let environment = match[1] === "staging" ? "staging" : "production";
   if (!match) return false;
 
-  if (environment === "staging") {
+  if (environment === "production") {
     if (header) {
-      header.style.cssText += "background-color: #b99a0e !important;";
-    } else return false;
-  } else if (environment === "production") {
-    if (header) {
-      header.style.cssText += "background-color: #004b87 !important;";
+      header.style.cssText += "background-color: #c90000 !important;";
     } else return false;
   }
 
