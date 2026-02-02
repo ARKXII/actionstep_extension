@@ -4,14 +4,8 @@ function actionStepQOL() {
   /// </summary>
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
-  const customSelect = document.getElementById(
-    "DataCollectionSingleRowPluginData_MultiSelectContainer",
-  );
-  const inputCustom = document.getElementById(
-    "DataCollectionSingleRowPluginData_Input",
-  );
 
-  if (!actionType && !stepSelect && !customSelect && !inputCustom) {
+  if (!actionType && !stepSelect) {
     console.log("No relevant elements found, exiting script.");
     return false;
   }
@@ -50,10 +44,6 @@ function actionStepQOL() {
     } catch (error) {
       console.debug("Error inserting textbox:", error.message);
     }
-  }
-  if (customSelect) customSelect.style.height = "500px";
-  if (inputCustom) {
-    inputCustom.focus();
   }
 
   return true;

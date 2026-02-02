@@ -40,10 +40,21 @@ function createElementObserver(
 
 // Function to handle iframe processing
 function processIFrame() {
-  // check for iframe with id mainFrame
+  // Check for iframes
   const iframe = document.getElementById("mainFrame");
-  if (!iframe) return;
+  const iframe2 = document.querySelector("#DrilldownDialog iframe");
 
+  if (iframe) {
+    processMainFrame(iframe);
+  }
+
+  if (iframe2) {
+    processDrilldownIframe(iframe2);
+  }
+}
+
+// Process mainFrame iframe
+function processMainFrame(iframe) {
   console.log("Found mainFrame iframe, processing...");
 
   // Function to attempt processing iframe content
@@ -68,19 +79,20 @@ function processIFrame() {
         // Also set up observer inside iframe for dynamic changes
         setupIframeObserver(iframeDoc, technicalMessage);
 
-        ExtensionUtils.showToast(
-          "Technical Message height adjusted in iframe.",
-        );
+        if (typeof ExtensionUtils !== "undefined") {
+          ExtensionUtils.showToast(
+            "Technical Message height adjusted in iframe.",
+          );
+        }
       } else {
         console.log("Technical element not found yet in iframe, retrying...");
         // Technical element might not be loaded yet, try again
         setTimeout(attemptProcessIframe, 500);
       }
-
-      // Look for other iFrames
-      // ...
     } catch (error) {
       console.log("Error accessing iframe:", error.message);
+      // Retry on error
+      setTimeout(attemptProcessIframe, 1000);
     }
   };
 
@@ -88,6 +100,106 @@ function processIFrame() {
     attemptProcessIframe();
   } else {
     iframe.addEventListener("load", attemptProcessIframe, { once: true });
+  }
+}
+
+// Process DrilldownDialog iframe
+function processDrilldownIframe(iframe2) {
+  console.log("Found DrilldownDialog iframe, processing...");
+
+  const attemptProcessIframe2 = () => {
+    try {
+      const iframeDoc =
+        iframe2.contentDocument || iframe2.contentWindow.document;
+
+      // Check if we can access the iframe document
+      if (!iframeDoc) {
+        console.log("Cannot access iframe2 document, retrying...");
+        setTimeout(attemptProcessIframe2, 500);
+        return;
+      }
+
+      // Look for custom elements
+      const customSelect = iframeDoc.getElementById(
+        "DataCollectionSingleRowPluginData_MultiSelectContainer",
+      );
+      const customInput = iframeDoc.getElementById(
+        "DataCollectionSingleRowPluginData_Input",
+      );
+
+      let foundElements = false;
+
+      if (customSelect) {
+        console.log("Found custom select in iframe!");
+        customSelect.style.height = "500px";
+        foundElements = true;
+      }
+
+      if (customInput) {
+        console.log("Found custom input in iframe!");
+        customInput.focus();
+        foundElements = true;
+      }
+
+      if (foundElements) {
+        // Also set up observer inside iframe for dynamic changes
+        setupDrilldownIframeObserver(iframeDoc, customSelect, customInput);
+
+        if (typeof ExtensionUtils !== "undefined") {
+          ExtensionUtils.showToast(
+            "Custom select and input adjusted in iframe.",
+          );
+        }
+      } else {
+        console.log("Custom elements not found yet in iframe, retrying...");
+        setTimeout(attemptProcessIframe2, 500);
+      }
+    } catch (error) {
+      console.log("Error accessing iframe2:", error.message);
+      setTimeout(attemptProcessIframe2, 1000);
+    }
+  };
+
+  if (iframe2.contentDocument?.readyState === "complete") {
+    attemptProcessIframe2();
+  } else {
+    iframe2.addEventListener("load", attemptProcessIframe2, { once: true });
+  }
+}
+
+// Function to set up observer inside drilldown iframe
+function setupDrilldownIframeObserver(iframeDoc, customSelect, customInput) {
+  try {
+    const iframeObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === "childList") {
+          // Check for custom select
+          const newSelect = iframeDoc.getElementById(
+            "DataCollectionSingleRowPluginData_MultiSelectContainer",
+          );
+          if (newSelect && newSelect !== customSelect) {
+            console.log("New custom select detected in iframe");
+            newSelect.style.height = "500px";
+          }
+
+          // Check for custom input
+          const newInput = iframeDoc.getElementById(
+            "DataCollectionSingleRowPluginData_Input",
+          );
+          if (newInput && newInput !== customInput) {
+            console.log("New custom input detected in iframe");
+            newInput.focus();
+          }
+        }
+      }
+    });
+
+    iframeObserver.observe(iframeDoc.body, {
+      childList: true,
+      subtree: true,
+    });
+  } catch (error) {
+    console.log("Could not set up drilldown iframe observer:", error.message);
   }
 }
 
@@ -159,19 +271,32 @@ function tryDirectAccess() {
   }
 }
 
-// Main observers setup
-const drilldownObserver = createElementObserver("DrilldownDialog", () =>
-  ExtensionUtils.showToast("Open column in new tab to apply fixes."),
-);
+// Main initialization
+function initialize() {
+  // Main observers setup
+  const drilldownObserver = createElementObserver(
+    "DrilldownDialog",
+    processIFrame,
+  );
+  const cleanRoomObserver = createElementObserver(
+    "cz-clean-room",
+    processIFrame,
+  );
 
-const cleanRoomObserver = createElementObserver("cz-clean-room", processIFrame);
+  // Also try to find technical element directly in case it's not in iframe
+  setTimeout(tryDirectAccess, 1000);
 
-// Also try to find technical element directly in case it's not in iframe
-setTimeout(tryDirectAccess, 1000);
+  // Start observing
+  const observerConfig = { childList: true, subtree: true };
+  drilldownObserver.observe(document.body, observerConfig);
+  cleanRoomObserver.observe(document.body, observerConfig);
 
-// Start observing
-const observerConfig = { childList: true, subtree: true };
-drilldownObserver.observe(document.body, observerConfig);
-cleanRoomObserver.observe(document.body, observerConfig);
+  console.log("Textarea height adjuster script loaded");
+}
 
-console.log("Textarea height adjuster script loaded");
+// Initialize when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize);
+} else {
+  initialize();
+}

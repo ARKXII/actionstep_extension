@@ -15,8 +15,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*/ap-southeast-2.actionstepstaging.com/*",
-        "https://*/ap-southeast-2.actionstep.com/*"
+        "https://*.actionstepstaging.com/*",
+        "https://*.actionstep.com/*"
       ],
       "js": [
         "scripts/extensionutils.js",
