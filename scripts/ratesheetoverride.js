@@ -1,4 +1,7 @@
 function rateSheetOverride() {
+  /// <summary>
+  /// Rate Sheet page enhancements override 
+  /// </summary>
   // find table and extract data
   const table = document.querySelector("table.as-subform");
   if (!table) {
