@@ -1,18 +1,20 @@
 function actionStepQOL() {
+  /// <summary>
+  /// Core Actionstep QoL scripts
+  /// </summary>
   const actionType = document.getElementById("action_type_id");
   const stepSelect = document.getElementById("action_type_step_number");
   const customSelect = document.getElementById(
-    "DataCollectionSingleRowPluginData_MultiSelectContainer"
+    "DataCollectionSingleRowPluginData_MultiSelectContainer",
   );
   const inputCustom = document.getElementById(
-    "DataCollectionSingleRowPluginData_Input"
+    "DataCollectionSingleRowPluginData_Input",
   );
 
-if (!actionType && !stepSelect && !customSelect && !inputCustom) {
+  if (!actionType && !stepSelect && !customSelect && !inputCustom) {
     console.log("No relevant elements found, exiting script.");
     return false;
   }
-
 
   //search for select elements
   //set select box height

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ActionStep QoL",
   "author": "Joshua Villalobos",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Various Quality of Life upgrades for ActionStep",
   "action": {
     "default_icon": {
@@ -15,13 +15,11 @@
   "content_scripts": [
     {
       "matches": [
-        "https://ap-southeast-2.actionstepstaging.com/mym/asfw/settings/actions-list/edit/user_list_id/*",
-        "https://ap-southeast-2.actionstepstaging.com/mym/*",
-        "https://ap-southeast-2.actionstep.com/mym/asfw/settings/actions-list/edit/user_list_id/*",
-        "https://ap-southeast-2.actionstep.com/mym/*"
+        "https://*/ap-southeast-2.actionstepstaging.com/*",
+        "https://*/ap-southeast-2.actionstep.com/*"
       ],
       "js": [
-        "scripts/buttonClick.js",
+        "scripts/extensionutils.js",
         "scripts/actionstep.js",
         "scripts/ratesheetoverride.js",
         "scripts/observer.js",
